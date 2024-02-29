@@ -89,9 +89,12 @@ class PH_OT_physic_load(bpy.types.Operator):
     def execute(self, context: bpy.types.Context):
         obj = bpy.data.objects.get(self.obj) or context.active_object
         cloth = get_cloth(obj)
-
-        obj = json.loads(bpy.context.window_manager.clipboard)
-        self.dict_to_bpy_struct(cloth.settings, obj)
+        try:
+            obj = json.loads(bpy.context.window_manager.clipboard)
+            self.dict_to_bpy_struct(cloth.settings, obj)
+        except Exception:
+            self.report({'ERROR'}, 'Invalid Json')
+            return {'CANCELLED'}
         self.report({'INFO'}, 'Loaded From Clipboard')
         return {'FINISHED'}
 
