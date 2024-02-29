@@ -61,7 +61,7 @@ class PH_OT_physic_save(bpy.types.Operator):
         obj = bpy.data.objects.get(self.obj) or context.active_object
 
         bpy.context.window_manager.clipboard = json.dumps(cloth_settings_to_dict(obj), indent=2)
-
+        self.report({'INFO'}, 'Saved To Clipboard')
         return {'FINISHED'}
 
 
@@ -92,6 +92,7 @@ class PH_OT_physic_load(bpy.types.Operator):
 
         obj = json.loads(bpy.context.window_manager.clipboard)
         self.dict_to_bpy_struct(cloth.settings, obj)
+        self.report({'INFO'}, 'Loaded From Clipboard')
         return {'FINISHED'}
 
 
